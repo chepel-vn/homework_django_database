@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% load filters %}
+
+
+{% block title %}Каталог{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="header">
+            <h1><a href="/catalog">Каталог</a></h1>
+        </div>
+
+        <div class="sort-block">
+            Сортировать по:
+            <a href="/catalog?sort=name">названию</a>
+            <a href="/catalog?sort=min_price">начиная с дешёвых</a>
+            <a href="/catalog?sort=max_price">начиная с дорогих</a>
+        </div><br/>
+
+        <div class="content">
+            <table>
+                {% for phone in phones|group %}
+                    <tr>
+                        <td>
+                             <h5><a href={{ phone.0.get_absolute_url }}>{{ phone.0.name }}</a></h5><br />
+                            <strong>Стоимость: {{ phone.0.price }}р.</strong><br />
+                            <img src={{ phone.0.image }} alt="пусто" width="250">
+                        </td>
+
+                        <td>
+                            {% if phone|length > 1 %}
+                            <h5><a href={{ phone.1.get_absolute_url }}>{{ phone.1.name }}</a></h5><br />
+                            <strong>Стоимость: {{ phone.1.price }}р.</strong><br />
+                            <img src={{ phone.1.image }} alt="пусто" width="250">
+                            {% endif %}
+                        </td>
+
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
